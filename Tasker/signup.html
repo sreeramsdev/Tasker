@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./signip.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <h1>Tasker</h1> -->
+    <div class="container">
+        <br><br><h2>Sign Up</h2>
+        <span>Name</span><input type="text" id="input1" placeholder="Enter your name...">
+        <br><span>Email</span><input type="email" id="input2" placeholder="Enter your email...">
+        <br><span>Password</span><input type="password" id="input3" placeholder="Enter your password...">
+         <br><button onclick="storeValues()">Sign Up</button>
+   
+    </div>
+    <script>
+        var name=document.getElementById("input1")
+        var email=document.getElementById("input2")
+        var password=document.getElementById("input3")
+        var token=localStorage.getItem("storageArray")
+        var storageArray
+            if(storageArray==null){
+                storageArray=[]
+            }
+            else{
+                storageArray=JSON.parse(token)
+            }
+            
+        function storeValues(){
+            var name1=document.getElementById("input1").value
+            var email1=document.getElementById("input2").value
+            var password1=document.getElementById("input3").value
+        
+            storageArray.push({
+                name:name1,
+                email:email1,
+                password:password1
+            })
+            storageArray.push(token)
+            document.location.href='./Index.html'
+           localStorage.setItem("storageArray",JSON.stringify(storageArray))
+            // var get=localStorage.getItem('name')
+            // console.log(get)
+
+            name.value=''
+            email.value=''
+            password.value=''
+        }
+
+        
+    </script>
+</body>
+</html>

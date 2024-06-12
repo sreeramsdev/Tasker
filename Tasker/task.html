@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./task.css">
+    <title>Tasks</title>
+</head>
+<body>
+    <div id="main">
+        <div id="main1">
+            <img class="img1" src="./checklist-1295319_1280.webp" alt="">
+            <li><img src="./Task-List-PNG-Download-Image.png" alt="">Tasks</li>
+            <li><img src="./category.jpeg" alt="">Category <img class="img2" src="./down-arrow.svg" alt=""></li>
+            <li><img src="./Settings-PNG-Free-Download.png" alt="">Settings</li>
+        </div>
+        <div id="main2">
+         <br><br><span>All Your Tasks</span> 
+         <div class="main2-1">
+            <label>Tasks</label>
+            <div class="task-btn">
+               <button>All</button>
+               <button>Done</button>
+               <button>Not Done</button>
+            </div>
+            
+         </div>  
+         <div id="addButton" onclick="addTask()">
+            <span>Add task</span>
+        </div>
+        </div>
+        
+       
+        <div id="add-taskList">
+           
+        </div>
+    </div>
+    
+    <div id="overlay">
+        
+    </div>
+    <div class="popUp">
+        <br><Span class="sp1">Insert Name
+        </Span>
+        <br><input type="text" id="taskName" placeholder="Task Name">
+        <br><br><span class="sp2">Select Category</span>
+        <br><select name="category" id="category">
+          <option value="School">School</option>
+          <option value="College">College</option>
+          <option value="Work">Work</option>
+          <option value="None">None</option>
+        </select>
+        <button class="popUp-btn" onclick="taskAdd()">Add task</button>
+
+  </div>
+  <div id="tasksAdded">
+            
+  </div>
+  
+
+    <script >
+//         var overlay=document.getElementById("overlay")
+// var popup=document.querySelector(".popUp")
+// function addTask(){
+    
+//     overlay.style.display='block'
+//     popup.style.display='block'
+// }
+
+
+// var input=document.getElementById("taskName").value
+// var selectInput=document.getElementById("category")
+
+
+var overlay = document.getElementById("overlay");
+        var popup = document.querySelector(".popUp");
+
+        function addTask() {
+            overlay.style.display = 'block';
+            popup.style.display = 'block';
+        }
+
+        function taskAdd() {
+            var inputText1 = document.getElementById("taskName").value;
+            var inputSelect1 = document.getElementById("category").value;
+            var token = localStorage.getItem("task");
+            var taskStore = token ? JSON.parse(token) : [];
+
+            taskStore.push({
+                task: inputText1,
+                selectTask: inputSelect1
+            });
+
+            localStorage.setItem("task", JSON.stringify(taskStore));
+            renderTaskList();
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
+        }
+
+        function renderTaskList() {
+            var token = localStorage.getItem("task");
+            var taskStore = token ? JSON.parse(token) : [];
+            var addtaskList = document.getElementById("add-taskList");
+            addtaskList.innerHTML = '';
+
+            taskStore.forEach((taskObj, index) => {
+                addtaskList.innerHTML += `
+                    <div class="taskList">
+                        <div id="span-label">
+                            <br><span>${taskObj.task}</span>
+                            <br><label>${taskObj.selectTask}</label>
+                        </div>
+                        <button id="btn1">Edit</button>
+                        <button id="btn2" onclick="deleteTask(${index})">Delete</button>
+                    </div>`;
+            });
+        }
+
+        function deleteTask(index) {
+            var token = localStorage.getItem("task");
+            var taskStore = token ? JSON.parse(token) : [];
+            taskStore.splice(index, 1);
+            localStorage.setItem("task", JSON.stringify(taskStore));
+            renderTaskList();
+        }
+
+        document.addEventListener("DOMContentLoaded", renderTaskList);
+
+// function taskAdd(){
+
+//     var inputText1=document.getElementById("taskName").value
+//     var inputSelect1=document.getElementById("category").value
+//     var token=localStorage.getItem("task")
+// var taskStore;
+//     if(taskStore==null){
+//         taskStore=[]
+//     }
+//     else{
+//         taskStore=JSON.parse(token)
+//     }
+//     taskStore.push({
+//         task:inputText1,
+//         selectTask:inputSelect1
+//     }
+//     );
+//     //  taskStore.push(token)
+//     // taskStore.push(token)
+//     localStorage.setItem("task",JSON.stringify(taskStore))
+//     // task.value=''
+//     // selectTask.value=''
+   
+    
+//     var addtaskList=document.getElementById("add-taskList")
+//     // location.reload()
+    
+//     addtaskList.innerHTML+=` <div class="taskList">
+//                 <div id="span-label">
+//                     <br><span>${inputText1}</span>
+//                     <br><label>${inputSelect1}</label>
+//                 </div>
+//                 <button id="btn1">Edit</button>
+//                 <button id="btn2" onClick="Delete">Delete</button>
+
+//             </div>`
+      
+//    overlay.style.display='none'
+//     popup.style.display='none'
+    
+// }
+
+
+// function Delete(){
+//     localStorage.removeItem("task")
+//     var addtaskList=document.getElementById("add-taskList")
+//     addtaskList.style.display="none"
+// }
+
+
+    </script>
+</body>
+</html>

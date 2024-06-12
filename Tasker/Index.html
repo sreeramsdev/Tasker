@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>To Do List</title>
+  
+</head>
+<body>
+    <div class="main">
+        <div id="main1">
+            <img src="./2912087.webp" alt="">
+        </div>
+        <div id="main2">
+        <span>Welcome To DO LIST</span>
+        <div id="main2-1">
+            <br><label>Email</label>
+            <br><br><input type="text" id="email" placeholder="Enter your Email">
+           <br> <br><label>Password</label>
+           <br> <br><input type="text" id="password" placeholder="Enter your password">
+           <br><br><input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+           <label>Remember Me</label>
+           <br><br><button id="login-btn" onclick="login()">Login</button>
+            <button id="signup-btn"><a href="./signup.html">or Sign Up</a></button>
+        </div>
+       
+        </div>
+    </div>
+
+
+    <script>
+      
+    function login() {
+        var email1 = document.getElementById("email").value;
+        var password1 = document.getElementById("password").value;
+       
+        
+        var storedUsers = JSON.parse(localStorage.getItem("storageArray"))||[];
+
+        var user = storedUsers.find(user => user.email === email1 && user.password === password1);
+
+        if (user) {
+        alert('Login successful!');
+        document.location.href='./task.html'
+       
+    } else {
+        alert('Incorrect email or password.');
+    }
+        
+        email1.value=' '
+        password1.value=' '
+       
+         }
+        
+       
+    
+    </script>
+</body>
+</html>
