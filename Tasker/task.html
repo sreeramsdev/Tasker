@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./task.css">
     <title>Tasks</title>
+    <style>
+        .cards {
+            height: 80px;
+            width: 600px;
+            background-color: bisque;
+            margin-left: 390px;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 1px 2px 10px palevioletred;
+        }
+        .cards span {
+            margin-left: 40px;
+        }
+        .cards label {
+            margin-left: 40px;
+        }
+        .cards button {
+            height: 40px;
+            width: 70px;
+            background-color: transparent;
+            border: 2px solid black;
+            color: rgb(140, 55, 55);
+            font-weight: bold;
+            margin-left: 470px;
+            position: relative;
+            top: -30px;
+        }
+    </style>
 </head>
 <body>
     <div id="main">
@@ -23,25 +51,18 @@
                <button>Done</button>
                <button>Not Done</button>
             </div>
-            
          </div>  
          <div id="addButton" onclick="addTask()">
             <span>Add task</span>
         </div>
         </div>
         
-       
-        <div id="add-taskList">
-           
-        </div>
+        <div id="add-taskList"></div>
     </div>
     
-    <div id="overlay">
-        
-    </div>
+    <div id="overlay"></div>
     <div class="popUp">
-        <br><Span class="sp1">Insert Name
-        </Span>
+        <br><span class="sp1">Insert Name</span>
         <br><input type="text" id="taskName" placeholder="Task Name">
         <br><br><span class="sp2">Select Category</span>
         <br><select name="category" id="category">
@@ -51,31 +72,14 @@
           <option value="None">None</option>
         </select>
         <button class="popUp-btn" onclick="taskAdd()">Add task</button>
+    </div>
 
-  </div>
-  <div id="tasksAdded">
-            
-  </div>
-  
-
-    <script >
-//         var overlay=document.getElementById("overlay")
-// var popup=document.querySelector(".popUp")
-// function addTask(){
-    
-//     overlay.style.display='block'
-//     popup.style.display='block'
-// }
-
-
-// var input=document.getElementById("taskName").value
-// var selectInput=document.getElementById("category")
-
-
-var overlay = document.getElementById("overlay");
-        var popup = document.querySelector(".popUp");
+    <script>
+        var taskStore = JSON.parse(localStorage.getItem("task")) || [];
 
         function addTask() {
+            var overlay = document.getElementById("overlay");
+            var popup = document.querySelector(".popUp");
             overlay.style.display = 'block';
             popup.style.display = 'block';
         }
@@ -83,8 +87,6 @@ var overlay = document.getElementById("overlay");
         function taskAdd() {
             var inputText1 = document.getElementById("taskName").value;
             var inputSelect1 = document.getElementById("category").value;
-            var token = localStorage.getItem("task");
-            var taskStore = token ? JSON.parse(token) : [];
 
             taskStore.push({
                 task: inputText1,
@@ -92,90 +94,42 @@ var overlay = document.getElementById("overlay");
             });
 
             localStorage.setItem("task", JSON.stringify(taskStore));
-            renderTaskList();
-            overlay.style.display = 'none';
-            popup.style.display = 'none';
+            display();
+            closePopup();
         }
 
-        function renderTaskList() {
-            var token = localStorage.getItem("task");
-            var taskStore = token ? JSON.parse(token) : [];
+        function display() {
             var addtaskList = document.getElementById("add-taskList");
-            addtaskList.innerHTML = '';
+            addtaskList.innerHTML = ''; // Clear existing tasks
 
-            taskStore.forEach((taskObj, index) => {
+            taskStore.forEach((task, index) => {
                 addtaskList.innerHTML += `
                     <div class="taskList">
                         <div id="span-label">
-                            <br><span>${taskObj.task}</span>
-                            <br><label>${taskObj.selectTask}</label>
+                            <br><span>${task.task}</span>
+                            <br><label>${task.selectTask}</label>
                         </div>
                         <button id="btn1">Edit</button>
-                        <button id="btn2" onclick="deleteTask(${index})">Delete</button>
+                        <button id="btn2" onClick="Delete(${index})">Delete</button>
                     </div>`;
             });
         }
 
-        function deleteTask(index) {
-            var token = localStorage.getItem("task");
-            var taskStore = token ? JSON.parse(token) : [];
+        function Delete(index) {
             taskStore.splice(index, 1);
             localStorage.setItem("task", JSON.stringify(taskStore));
-            renderTaskList();
+            display();
         }
 
-        document.addEventListener("DOMContentLoaded", renderTaskList);
+        function closePopup() {
+            var overlay = document.getElementById("overlay");
+            var popup = document.querySelector(".popUp");
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
+        }
 
-// function taskAdd(){
-
-//     var inputText1=document.getElementById("taskName").value
-//     var inputSelect1=document.getElementById("category").value
-//     var token=localStorage.getItem("task")
-// var taskStore;
-//     if(taskStore==null){
-//         taskStore=[]
-//     }
-//     else{
-//         taskStore=JSON.parse(token)
-//     }
-//     taskStore.push({
-//         task:inputText1,
-//         selectTask:inputSelect1
-//     }
-//     );
-//     //  taskStore.push(token)
-//     // taskStore.push(token)
-//     localStorage.setItem("task",JSON.stringify(taskStore))
-//     // task.value=''
-//     // selectTask.value=''
-   
-    
-//     var addtaskList=document.getElementById("add-taskList")
-//     // location.reload()
-    
-//     addtaskList.innerHTML+=` <div class="taskList">
-//                 <div id="span-label">
-//                     <br><span>${inputText1}</span>
-//                     <br><label>${inputSelect1}</label>
-//                 </div>
-//                 <button id="btn1">Edit</button>
-//                 <button id="btn2" onClick="Delete">Delete</button>
-
-//             </div>`
-      
-//    overlay.style.display='none'
-//     popup.style.display='none'
-    
-// }
-
-
-// function Delete(){
-//     localStorage.removeItem("task")
-//     var addtaskList=document.getElementById("add-taskList")
-//     addtaskList.style.display="none"
-// }
-
-
+        // Initial display of stored tasks
+        display();
     </script>
 </body>
 </html>
